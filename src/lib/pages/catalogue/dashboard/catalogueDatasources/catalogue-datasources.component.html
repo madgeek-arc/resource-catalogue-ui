@@ -152,8 +152,8 @@
                   </div>
                 }
                 @if (!datasourceBundle.active) {
-                  <div class="rejected">
-                    <div class="uk-label uk-align-right">Inactive</div>
+                  <div>
+                    <div class="uk-label uk-label-gray uk-align-right">Inactive</div>
                   </div>
                 }
                 @if (datasourceBundle.suspended) {
@@ -214,7 +214,7 @@
             <button
               routerLink="/provider/{{datasourceBundle.datasource.resourceOwner}}/resource/view/{{datasourceBundle.id}}"
               class="uk-button uk-button-link" style="">
-              <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true"></i>
+              <span class="material-symbols-outlined uk-margin-small-right" aria-hidden="true">visibility</span>
               View Datasources
             </button>
           </div>

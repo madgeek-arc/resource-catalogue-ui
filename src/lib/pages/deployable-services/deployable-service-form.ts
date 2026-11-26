@@ -17,6 +17,7 @@ import {FormControlService} from "../../../dynamic-catalogue/services/form-contr
 import {DeployableServiceService} from "../../services/deployable-service.service";
 import {DeduplicationService, SimilarResource} from "../../services/deduplication.service";
 import {SuggestionConfig, SuggestionService, SuggestionState} from "../../services/suggestion.service";
+import {buildHttpErrorMessage} from '../../shared/tools';
 
 declare let UIkit: any;
 
@@ -151,10 +152,7 @@ export class DeployableServiceForm implements OnInit, OnDestroy {
         err => {
           this.showLoader = false;
           window.scrollTo(0, 0);
-          this.errorMessage =
-          (err?.status >= 500 && err?.status < 600)
-            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
-            : `Something went bad, server responded: ${err?.error?.detail}`;
+          this.errorMessage = buildHttpErrorMessage(err);
           console.log(err);
           console.log(this.errorMessage);
         }
@@ -178,10 +176,8 @@ export class DeployableServiceForm implements OnInit, OnDestroy {
         this.vocabularies = <Map<string, Vocabulary[]>>suc[2];
       },
       err => {
-                this.errorMessage =
-          (err?.status >= 500 && err?.status < 600)
-            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
-            : `Something went bad while getting the data for page initialization: ${err?.error?.detail}`;
+        this.showLoader = false;
+        this.errorMessage = buildHttpErrorMessage(err, 'Something went bad while getting the data for page initialization');
       },
       () => {
         this.providerId = this.route.snapshot.paramMap.get('providerId');

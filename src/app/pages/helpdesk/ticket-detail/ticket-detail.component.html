@@ -1,21 +1,21 @@
 <div class="ticket-detail-container">
   <div class="detail-header">
-    <button class="btn btn-secondary" (click)="goBack()">
-      <i class="fa fa-arrow-left"></i>
+    <button class="uk-button uk-button-secondary" (click)="goBack()">
+      <span class="material-symbols-outlined uk-margin-small-right">arrow_back</span>
       Back to Tickets
     </button>
   </div>
 
   @if (error) {
     <div class="error-message">
-      <i class="fas fa-exclamation-circle"></i>
+      <span class="material-symbols-outlined">error</span>
       <span>{{ error }}</span>
     </div>
   }
 
   @if (loading) {
     <div class="loading-container">
-      <div class="spinner"></div>
+      <div class="uk-text-primary uk-margin-bottom" uk-spinner="ratio: 1.5"></div>
       <p>Loading ticket details...</p>
     </div>
   }
@@ -32,10 +32,9 @@
             </div>
           </div>
           <div class="ticket-status-section">
-            <div class="status-badge">
-              <i [class]="getStatusIcon(ticket.status)"></i>
-              <span [class]="getStatusClass(ticket.status)">{{ ticket.status }}</span>
-            </div>
+            <span class="uk-label" [class]="getStatusClass(ticket.status)">
+              <span class="material-symbols-outlined uk-margin-small-right">{{ getStatusIcon(ticket.status) }}</span>{{ ticket.status }}
+            </span>
           </div>
         </div>
       </div>
@@ -50,10 +49,10 @@
               >
               <div class="timeline-marker">
                 @if (isUserMessage(article)) {
-                  <i class="fas fa-user"></i>
+                  <span class="material-symbols-outlined">person</span>
                 }
                 @if (!isUserMessage(article)) {
-                  <i class="fas fa-headset"></i>
+                  <span class="material-symbols-outlined">headset_mic</span>
                 }
               </div>
               <div class="timeline-content">
@@ -81,13 +80,13 @@
           <h3>Add a Reply</h3>
           <form [formGroup]="replyForm" (ngSubmit)="onSubmitReply()" class="reply-form">
             <div class="form-group">
-              <label for="replyBody">Your Message *</label>
+              <label class="uk-form-label" for="replyBody">Your Message *</label>
               <textarea
                 id="replyBody"
                 formControlName="body"
                 placeholder="Type your reply here..."
                 rows="5"
-                class="form-control"
+                class="uk-textarea"
                 [class.is-invalid]="replyForm.get('body')?.invalid && replyForm.get('body')?.touched"
               ></textarea>
               @if (replyForm.get('body')?.invalid && replyForm.get('body')?.touched) {
@@ -99,11 +98,11 @@
             <div class="form-actions">
               <button
                 type="submit"
-                class="btn btn-primary"
+                class="uk-button uk-button-primary"
                 [disabled]="replyForm.invalid || submittingReply"
                 >
                 @if (submittingReply) {
-                  <span class="spinner"></span>
+                  <span class="uk-margin-small-right" uk-spinner="ratio: 0.6"></span>
                 }
                 {{ submittingReply ? 'Sending...' : 'Send Reply' }}
               </button>
@@ -114,10 +113,10 @@
       @if (ticket.status === 'closed') {
         <div class="ticket-closed">
           <div class="closed-notice">
-            <i class="fas fa-lock"></i>
+            <span class="material-symbols-outlined">lock</span>
             <h4>This ticket is closed</h4>
             <p>This support ticket has been resolved and closed. If you need further assistance, please create a new ticket.</p>
-            <button class="btn btn-primary" (click)="router.navigate(['/helpdesk/create'])">
+            <button class="uk-button uk-button-primary" (click)="router.navigate(['/helpdesk/create'])">
               Create New Ticket
             </button>
           </div>

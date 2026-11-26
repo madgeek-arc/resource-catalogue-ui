@@ -32,23 +32,25 @@
                     </div>
                   </form>
 
-                  <h5>{{serviceORresource}} Status</h5>
-                  <form [formGroup]="dataForm">
-                    <div formArrayName="status" class="uk-padding uk-padding-remove-top">
-                      <div *ngFor="let statusValue of statuses;" class="uk-margin-small-top">
-                        <label class="status-value uk-margin-small-left">
-                          <input #checkboxes class="uk-checkbox" type="checkbox" [value]="statusValue"
-                                 (change)="onSelectionChange($event, 'status')" [checked]="isStatusChecked(statusValue)">
-                          {{labels[statuses.indexOf(statusValue)] | titlecase}}
-                        </label>
+                  @if (config.isReviewed('service')) {
+                    <h5>{{serviceORresource}} Status</h5>
+                    <form [formGroup]="dataForm">
+                      <div formArrayName="status" class="uk-padding uk-padding-remove-top">
+                        <div *ngFor="let statusValue of statuses;" class="uk-margin-small-top">
+                          <label class="status-value uk-margin-small-left">
+                            <input #checkboxes class="uk-checkbox" type="checkbox" [value]="statusValue"
+                                   (change)="onSelectionChange($event, 'status')" [checked]="isStatusChecked(statusValue)">
+                            {{labels[statuses.indexOf(statusValue)] | titlecase}}
+                          </label>
+                        </div>
                       </div>
-                    </div>
-<!--                    <div class="">-->
-<!--                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(false)"> Uncheck All </button>-->
-<!--                      &nbsp;-->
-<!--                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(true)"> Check All </button>-->
-<!--                    </div>-->
-                  </form>
+  <!--                    <div class="">-->
+  <!--                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(false)"> Uncheck All </button>-->
+  <!--                      &nbsp;-->
+  <!--                      <button type="button" class="uk-button uk-button-primary" (click)="checkAll(true)"> Check All </button>-->
+  <!--                    </div>-->
+                    </form>
+                  }
 
                   <div *ngIf="facets && facets.length>0" class="refineCategory uk-grid-margin">
                     <ng-container *ngFor="let f of facets">
@@ -236,8 +238,8 @@
                         <div *ngIf="serviceBundle.active" class="approved">
                           <div class="uk-label uk-align-right">Active</div>
                         </div>
-                        <div *ngIf="!serviceBundle.active" class="rejected">
-                          <div class="uk-label uk-align-right">Inactive</div>
+                        <div *ngIf="!serviceBundle.active">
+                          <div class="uk-label uk-label-gray uk-align-right">Inactive</div>
                         </div>
 
                         <div *ngIf="serviceBundle.suspended" class="rejected">
@@ -450,33 +452,33 @@
                                   </ng-container>-->
 
                                   <ng-container *ngIf="isProviderActive(serviceBundle.service.resourceOwner) ; else elseBlockList">
-                                    <div>
-                                      <li class="uk-button uk-button-link uk-padding-small"
-                                              (click)="toggleService(serviceBundle)">
-                                        <ng-container *ngIf="serviceBundle.active"><span class="material-symbols-outlined" style="vertical-align: middle;">close</span>Deactivate {{serviceORresource}}</ng-container>
-                                        <ng-container *ngIf="!serviceBundle.active"><span class="material-symbols-outlined" style="vertical-align: middle;">check</span>Activate {{serviceORresource}}</ng-container>
-                                      </li>
-                                    </div>
+                                    <li class="uk-margin-small-top"
+                                        (click)="toggleService(serviceBundle)">
+                                      <a>
+                                        <ng-container *ngIf="serviceBundle.active"><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">close</span>Deactivate {{serviceORresource}}</ng-container>
+                                        <ng-container *ngIf="!serviceBundle.active"><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">check</span>Activate {{serviceORresource}}</ng-container>
+                                      </a>
+                                    </li>
                                   </ng-container>
 
                                   <ng-template #elseBlockList>
-                                    <div uk-tooltip="title:Cannot activate/deactivate resource of a non active provider.">
-                                      <li class="uk-button uk-button-link uk-disabled uk-padding-small"
-                                              (click)="toggleService(serviceBundle)">
-                                        <ng-container *ngIf="serviceBundle.active"><span class="material-symbols-outlined" style="vertical-align: middle;">close</span>Deactivate {{serviceORresource}}</ng-container>
-                                        <ng-container *ngIf="!serviceBundle.active"><span class="material-symbols-outlined" style="vertical-align: middle;">check</span>Activate {{serviceORresource}}</ng-container>
-                                      </li>
-                                    </div>
+                                    <li class="uk-margin-small-top"
+                                        uk-tooltip="title:Cannot activate/deactivate resource of a non active provider.">
+                                      <a class="uk-disabled uk-text-muted">
+                                        <ng-container *ngIf="serviceBundle.active"><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">close</span>Deactivate {{serviceORresource}}</ng-container>
+                                        <ng-container *ngIf="!serviceBundle.active"><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">check</span>Activate {{serviceORresource}}</ng-container>
+                                      </a>
+                                    </li>
                                   </ng-template>
 
                                 </ng-container>
 
                                 <ng-container *ngIf="serviceBundle.status==='pending'">
                                   <li class="uk-active" (click)="templateAction(serviceBundle, true, 'approved')">
-                                    <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">thumb_up</span>Approve First {{serviceORresource}}</a>
+                                    <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">thumb_up</span>Approve {{ config.isReviewFirst('service') ? 'First ' : '' }}{{serviceORresource}}</a>
                                   </li>
                                   <li class="uk-active" (click)="templateAction(serviceBundle, false, 'rejected')">
-                                    <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">thumb_down</span>Reject First {{serviceORresource}}</a>
+                                    <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">thumb_down</span>Reject {{ config.isReviewFirst('service') ? 'First ' : '' }}{{serviceORresource}}</a>
                                   </li>
                                 </ng-container>
 
@@ -795,11 +797,11 @@
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.webpage as value">
         <dt>Webpage</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-symbols-outlined external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.logo as value">
         <dt>Logo</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-symbols-outlined external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="(getDuplicateResource(item)?.resourceOrganisation || getDuplicateResource(item)?.resourceOwner) as value">
         <dt>Organisation</dt><dd>{{ value }}</dd>
@@ -848,7 +850,7 @@
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.helpdeskPage as value">
         <dt>Helpdesk page</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-symbols-outlined external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.orderType as value">
         <dt>Order type</dt><dd>{{ value }}</dd>
@@ -901,8 +903,8 @@
         <div *ngIf="serviceBundle.active" class="approved">
           <div class="uk-label uk-align-right">Active</div>
         </div>
-        <div *ngIf="!serviceBundle.active" class="rejected">
-          <div class="uk-label uk-align-right">Inactive</div>
+        <div *ngIf="!serviceBundle.active">
+          <div class="uk-label uk-label-gray uk-align-right">Inactive</div>
         </div>
 
         <div *ngIf="serviceBundle.suspended" class="rejected">
@@ -1063,31 +1065,34 @@
             </button>
             <div uk-dropdown="mode: click">
               <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
-                <li (click)="editResourceInNewTab(pidHandler.customEncodeURIComponent(serviceBundle.service.resourceOwner), pidHandler.customEncodeURIComponent(serviceBundle.id))"
-                  class="uk-button uk-button-link">
+                <li (click)="editResourceInNewTab(pidHandler.customEncodeURIComponent(serviceBundle.service.resourceOwner), pidHandler.customEncodeURIComponent(serviceBundle.id))">
                   <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">edit_square</span>Edit</a>
                 </li>
                 <li (click)="showDeletionModal(serviceBundle)"
-                        class="uk-button uk-button-link">
+                    class="uk-margin-small-top">
                   <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">delete</span>Delete</a>
                 </li>
 
                 <ng-container *ngIf="isProviderActive(serviceBundle.service.resourceOwner) ; else elseBlockList">
-                  <li class="uk-button uk-button-link uk-margin-small-top"
+                  <li *ngIf="serviceBundle.status==='approved'"
+                      class="uk-margin-small-top"
                       (click)="toggleService(serviceBundle)">
-                    <ng-container *ngIf="serviceBundle.status==='approved' && serviceBundle.active"><span class="material-symbols-outlined" style="vertical-align: middle;">close</span>Deactivate {{serviceORresource}}</ng-container>
-                    <ng-container *ngIf="serviceBundle.status==='approved' && !serviceBundle.active"><span class="material-symbols-outlined" style="vertical-align: middle;">check</span>Activate {{serviceORresource}}</ng-container>
+                    <a>
+                      <ng-container *ngIf="serviceBundle.active"><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">close</span>Deactivate {{serviceORresource}}</ng-container>
+                      <ng-container *ngIf="!serviceBundle.active"><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">check</span>Activate {{serviceORresource}}</ng-container>
+                    </a>
                   </li>
                 </ng-container>
 
                 <ng-template #elseBlockList>
-                  <div uk-tooltip="title:Cannot activate/deactivate resource of a non active provider.">
-                    <li class="uk-button uk-button-link uk-disabled"
-                        (click)="toggleService(serviceBundle)">
-                      <ng-container *ngIf="serviceBundle.status==='approved' && serviceBundle.active"><span class="material-symbols-outlined" style="vertical-align: middle;">close</span>Deactivate {{serviceORresource}}</ng-container>
-                      <ng-container *ngIf="serviceBundle.status==='approved' && !serviceBundle.active"><span class="material-symbols-outlined" style="vertical-align: middle;">check</span>Activate {{serviceORresource}}</ng-container>
-                    </li>
-                  </div>
+                  <li *ngIf="serviceBundle.status==='approved'"
+                      class="uk-margin-small-top"
+                      uk-tooltip="title:Cannot activate/deactivate resource of a non active provider.">
+                    <a class="uk-disabled uk-text-muted">
+                      <ng-container *ngIf="serviceBundle.active"><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">close</span>Deactivate {{serviceORresource}}</ng-container>
+                      <ng-container *ngIf="!serviceBundle.active"><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">check</span>Activate {{serviceORresource}}</ng-container>
+                    </a>
+                  </li>
                 </ng-template>
 
                 <li *ngIf="(serviceBundle.suspended==false)"

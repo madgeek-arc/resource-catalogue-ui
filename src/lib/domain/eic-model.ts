@@ -758,7 +758,7 @@ export const enum States {
   REJECTED = "REJECTED",
 }
 
-export const enum Type {
+export enum Type {
   SUPERCATEGORY = "SUPERCATEGORY",
   CATEGORY = "CATEGORY",
   SUBCATEGORY = "SUBCATEGORY",

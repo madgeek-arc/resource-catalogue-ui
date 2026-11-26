@@ -649,9 +649,8 @@ export class ResourcesListComponent implements OnInit {
   templateAction(serviceBundle, active, status) {
     this.loadingMessage = '';
     UIkit.modal('#spinnerModal').show();
-    const providerId = serviceBundle.service.resourceOwner;
-    const templateId = this.serviceTemplatePerProvider.filter(x => x.providerId === providerId)[0].serviceId;
-    this.resourceService.verifyResource(templateId, active, status).subscribe(
+    // the resource the admin picked, which is the Organisation's template only under 'review-first'
+    this.resourceService.verifyResource(serviceBundle.id, active, status).subscribe(
       res => {
         this.getProviders();
       },

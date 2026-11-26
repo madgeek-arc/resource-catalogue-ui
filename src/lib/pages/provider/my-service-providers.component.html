@@ -69,22 +69,23 @@
                                     <!--                              <span class="statusLabel">Provider Status: </span>{{ providerBundle.status.substr(0,providerBundle.status.indexOf(' ')) | titlecase }}-->
                                     <!--                              <span class="statusLabel">Provider Status: </span>{{labels[statuses.indexOf(providerBundle.status)]}}-->
                                     <span class="statusLabel">Provider Status: </span>Approved
-                                    <br>
-                                    <span
-                                      class="statusLabel">First Resource Status: </span>{{ templateLabels[templateStatuses.indexOf(providerBundle.templateStatus)] }}
+                                    @if (config.isAnyReviewFirst()) {
+                                      <br>
+                                      <span class="statusLabel">First Resource Status: </span>{{ templateLabels[templateStatuses.indexOf(providerBundle.templateStatus)] }}
+                                    }
                                   </div>
                                   @if (providerBundle.catalogueId == null) {
                                     <div class="uk-margin-top cardActionButtons">
                                       <button class="uk-button uk-button-action"
                                               routerLink="/provider/update/{{pidHandler.customEncodeURIComponent(providerBundle.id)}}">
-                                        <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Provider
+                                        <span class="material-symbols-outlined uk-margin-small-right">edit_square</span>Update Provider
                                       </button>
-                                      @if ((providerBundle.templateStatus !== 'approved template')) {
+                                      @if (config.isAnyReviewFirst() && providerBundle.templateStatus !== 'approved template') {
                                         @if (hasCreatedFirstService(providerBundle.id)) {
                                           <!--<ng-container *ngIf="(providerBundle.templateStatus === 'pending template')">-->
                                           <button class="uk-button uk-button-action uk-margin-small-left"
                                                   routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
-                                            <i class="fa fa-lg fa-edit"></i>
+                                            <span class="material-symbols-outlined">edit_square</span>
                                             Update First {{serviceORresource}}
                                           </button>
                                         }
@@ -92,7 +93,7 @@
                                           <!--<ng-container *ngIf="(providerBundle.templateStatus === 'pending template')">-->
                                           <button class="uk-button uk-button-action uk-margin-small-left"
                                                   routerLink="{{ getLinkToFirstDatasource(providerBundle.id) }}">
-                                            <i class="fa fa-lg fa-edit"></i>
+                                            <span class="material-symbols-outlined">edit_square</span>
                                             Update First Datasource
                                           </button>
                                         }
@@ -100,7 +101,7 @@
                                           <!--<ng-container *ngIf="(providerBundle.templateStatus === 'pending template')">-->
                                           <button class="uk-button uk-button-action uk-margin-small-left"
                                                   routerLink="{{ getLinkToFirstTrainingResource(providerBundle.id) }}">
-                                            <i class="fa fa-lg fa-edit"></i>
+                                            <span class="material-symbols-outlined">edit_square</span>
                                             Update First Training Resource
                                           </button>
                                         }
@@ -108,37 +109,69 @@
                                           <!--<ng-container *ngIf="(providerBundle.templateStatus === 'pending template')">-->
                                           <button class="uk-button uk-button-action uk-margin-small-left"
                                                   routerLink="{{ getLinkToFirstDeployableApplication(providerBundle.id) }}">
-                                            <i class="fa fa-lg fa-edit"></i>
+                                            <span class="material-symbols-outlined">edit_square</span>
                                             Update First Deployable Application
                                           </button>
                                         }
-                                        @if (!hasCreatedFirstService(providerBundle.id) && !hasCreatedFirstDatasource(providerBundle.id) && !hasCreatedFirstTrainingResource(providerBundle.id) && !hasCreatedFirstDeployableApplication(providerBundle.id)) {
+                                        @if (hasCreatedFirstAdapter(providerBundle.id)) {
+                                          <button class="uk-button uk-button-action uk-margin-small-left"
+                                                  routerLink="{{ getLinkToFirstAdapter(providerBundle.id) }}">
+                                            <i class="fa fa-lg fa-edit"></i>
+                                            Update First Adapter
+                                          </button>
+                                        }
+                                        @if (hasCreatedFirstGuideline(providerBundle.id)) {
+                                          <button class="uk-button uk-button-action uk-margin-small-left"
+                                                  routerLink="{{ getLinkToFirstGuideline(providerBundle.id) }}">
+                                            <i class="fa fa-lg fa-edit"></i>
+                                            Update First Guideline
+                                          </button>
+                                        }
+                                        @if (!hasCreatedFirstService(providerBundle.id) && !hasCreatedFirstDatasource(providerBundle.id) && !hasCreatedFirstTrainingResource(providerBundle.id) && !hasCreatedFirstDeployableApplication(providerBundle.id) && !hasCreatedFirstAdapter(providerBundle.id) && !hasCreatedFirstGuideline(providerBundle.id)) {
                                           <button class="uk-button uk-button-action uk-margin-small-left">
-                                            <i class="fa fa-plus"></i>
+                                            <span class="material-symbols-outlined">add</span>
                                             Add First Resource
                                           </button>
                                           <div uk-dropdown>
                                             <ul class="uk-nav uk-dropdown-nav">
+                                              @if (config.isReviewFirst('service')) {
                                               <li class="uk-active">
                                                 <a
                                                   routerLink="{{ getLinkToFirstService(pidHandler.customEncodeURIComponent(providerBundle.id)) }}">Add
                                                   First {{serviceORresource}}</a>
                                               </li>
+                                              }
+                                              @if (config.isReviewFirst('datasource')) {
                                               <li class="uk-active">
                                                 <a
                                                   routerLink="{{ getLinkToFirstDatasource(pidHandler.customEncodeURIComponent(providerBundle.id)) }}">Add
                                                   First Datasource</a>
                                               </li>
+                                              }
+                                              @if (config.isReviewFirst('training_resource')) {
                                               <li class="uk-active">
                                                 <a
                                                   routerLink="{{ getLinkToFirstTrainingResource(pidHandler.customEncodeURIComponent(providerBundle.id)) }}">Add
                                                   First Training Resource</a>
                                               </li>
+                                              }
+                                              @if (config.isReviewFirst('deployable_application')) {
                                               <li class="uk-active">
                                                 <a
                                                   routerLink="{{ getLinkToFirstDeployableApplication(pidHandler.customEncodeURIComponent(providerBundle.id)) }}">Add
                                                   First Deployable Application</a>
                                               </li>
+                                              }
+                                              @if (config.isReviewFirst('adapter')) {
+                                              <li class="uk-active">
+                                                <a routerLink="{{ getLinkToFirstAdapter(providerBundle.id) }}">Add First Adapter</a>
+                                              </li>
+                                              }
+                                              @if (config.isReviewFirst('interoperability_record')) {
+                                              <li class="uk-active">
+                                                <a routerLink="{{ getLinkToFirstGuideline(providerBundle.id) }}">Add First Guideline</a>
+                                              </li>
+                                              }
                                               @if (checkForDraftServices(providerBundle.id)) {
                                                 <li class="uk-active">
                                                   <a
@@ -150,12 +183,12 @@
                                               @if (checkForDraftDatasources(providerBundle.id)) {
                                                 <li class="uk-active">
                                                   <a
-                                                    [routerLink]="['/provider/draft-resources/' + pidHandler.customEncodeURIComponent(providerBundle.id)] ">
+                                                    [routerLink]="['/provider/draft-datasources/' + pidHandler.customEncodeURIComponent(providerBundle.id)] ">
                                                     Select from draft datasources
                                                   </a>
                                                 </li>
                                               }
-                                              @if (checkForRejectedServices(providerBundle.id)) {
+                                              @if (config.isReviewFirst('service') && checkForRejectedServices(providerBundle.id)) {
                                                 <li class="uk-active">
                                                   <a
                                                     [routerLink]="['/provider/rejected-resources/' + pidHandler.customEncodeURIComponent(providerBundle.id)] ">
@@ -163,7 +196,7 @@
                                                   </a>
                                                 </li>
                                               }
-                                              @if (checkForRejectedDatasources(providerBundle.id)) {
+                                              @if (config.isReviewFirst('datasource') && checkForRejectedDatasources(providerBundle.id)) {
                                                 <li class="uk-active">
                                                   <a
                                                     [routerLink]="['/provider/rejected-datasources/' + pidHandler.customEncodeURIComponent(providerBundle.id)] ">
@@ -171,7 +204,7 @@
                                                   </a>
                                                 </li>
                                               }
-                                              @if (checkForRejectedTrainingResources(providerBundle.id)) {
+                                              @if (config.isReviewFirst('training_resource') && checkForRejectedTrainingResources(providerBundle.id)) {
                                                 <li class="uk-active">
                                                   <a
                                                     [routerLink]="['/provider/rejected-training-resources/' + pidHandler.customEncodeURIComponent(providerBundle.id)] ">
@@ -179,11 +212,27 @@
                                                   </a>
                                                 </li>
                                               }
-                                              @if (checkForRejectedDeployableServices(providerBundle.id)) {
+                                              @if (config.isReviewFirst('deployable_application') && checkForRejectedDeployableServices(providerBundle.id)) {
                                                 <li class="uk-active">
                                                   <a
                                                     [routerLink]="['/provider/rejected-deployable-services/' + pidHandler.customEncodeURIComponent(providerBundle.id)] ">
                                                     Select from rejected Deployable Application
+                                                  </a>
+                                                </li>
+                                              }
+                                              @if (config.isReviewFirst('adapter') && checkForRejectedAdapters(providerBundle.id)) {
+                                                <li class="uk-active">
+                                                  <a
+                                                    [routerLink]="['/provider/rejected-adapters/' + pidHandler.customEncodeURIComponent(providerBundle.id)] ">
+                                                    Select from rejected adapters
+                                                  </a>
+                                                </li>
+                                              }
+                                              @if (config.isReviewFirst('interoperability_record') && checkForRejectedGuidelines(providerBundle.id)) {
+                                                <li class="uk-active">
+                                                  <a
+                                                    [routerLink]="['/provider/rejected-guidelines/' + pidHandler.customEncodeURIComponent(providerBundle.id)] ">
+                                                    Select from rejected guidelines
                                                   </a>
                                                 </li>
                                               }
@@ -193,7 +242,7 @@
                                       }
                                       <button [disabled]="true" class="uk-button uk-margin-small-left uk-button-action"
                                               routerLink="">
-                                        <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More
+                                        <span class="material-symbols-outlined uk-margin-small-right">more_vert</span>More
                                       </button>
                                       <div uk-dropdown>
                                         <ul class="uk-nav uk-dropdown-nav">
@@ -235,11 +284,11 @@
                                     <div class="uk-margin-top cardActionButtons">
                                       <button class="uk-button uk-button-action"
                                               routerLink="/provider/view/{{pidHandler.customEncodeURIComponent(providerBundle.catalogueId)}}/{{pidHandler.customEncodeURIComponent(providerBundle.id)}}">
-                                        <i class="fa fa-lg fa-edit uk-margin-small-right"></i>View Provider
+                                        <span class="material-symbols-outlined uk-margin-small-right">edit_square</span>View Provider
                                       </button>
                                       <button [disabled]="true" class="uk-button uk-margin-small-left uk-button-action"
                                               routerLink="">
-                                        <i class="fa fa-ellipsis-v fa-lg uk-margin-small-right"></i>More
+                                        <span class="material-symbols-outlined uk-margin-small-right">more_vert</span>More
                                       </button>
                                       <div uk-dropdown>
                                         <ul class="uk-nav uk-dropdown-nav">
@@ -286,15 +335,16 @@
                                   </div>
                                   <div class="uk-margin-small-top">
                                     <span class="statusLabel">Provider Status: </span>Pending
-                                    <br>
-                                    <span
-                                      class="statusLabel">First Resource Status: </span>{{ templateLabels[templateStatuses.indexOf(providerBundle.templateStatus)] }}
+                                    @if (config.isAnyReviewFirst()) {
+                                      <br>
+                                      <span class="statusLabel">First Resource Status: </span>{{ templateLabels[templateStatuses.indexOf(providerBundle.templateStatus)] }}
+                                    }
                                   </div>
                                   @if (providerBundle.catalogueId == null) {
                                     <div class="uk-margin-top cardActionButtons">
                                       <button class="uk-button uk-button-action"
                                               routerLink="/provider/update/{{pidHandler.customEncodeURIComponent(providerBundle.id)}}">
-                                        <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Provider
+                                        <span class="material-symbols-outlined uk-margin-small-right">edit_square</span>Update Provider
                                       </button>
                                     </div>
                                   }
@@ -335,20 +385,21 @@
                                   </div>
                                   <div class="uk-margin-small-top">
                                     <span class="statusLabel">Provider Status: </span>Rejected
-                                    <br>
-                                    <span
-                                      class="statusLabel">First Resource Status: </span>{{ templateLabels[templateStatuses.indexOf(providerBundle.templateStatus)] }}
+                                    @if (config.isAnyReviewFirst()) {
+                                      <br>
+                                      <span class="statusLabel">First Resource Status: </span>{{ templateLabels[templateStatuses.indexOf(providerBundle.templateStatus)] }}
+                                    }
                                   </div>
                                   @if (providerBundle.catalogueId == null) {
                                     <div class="uk-margin-top cardActionButtons">
                                       <button class="uk-button uk-button-action"
                                               routerLink="/provider/update/{{pidHandler.customEncodeURIComponent(providerBundle.id)}}">
-                                        <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Provider
+                                        <span class="material-symbols-outlined uk-margin-small-right">edit_square</span>Update Provider
                                       </button>
                                       @if (providerBundle.templateStatus === 'rejected template') {
                                         <button class="uk-button uk-button-action"
                                                 routerLink="{{ getLinkToFirstService(providerBundle.id) }}">
-                                          <i class="fa fa-lg fa-edit"></i> Update First {{serviceORresource}}
+                                          <span class="material-symbols-outlined">edit_square</span> Update First {{serviceORresource}}
                                         </button>
                                       }
                                     </div>
@@ -391,7 +442,7 @@
                                     <div class="uk-margin-top cardActionButtons">
                                       <button class="uk-button uk-button-action"
                                               routerLink="/provider/add/{{pidHandler.customEncodeURIComponent(providerBundle.id)}}">
-                                        <i class="fa fa-lg fa-edit uk-margin-small-right"></i>Update Provider
+                                        <span class="material-symbols-outlined uk-margin-small-right">edit_square</span>Update Provider
                                       </button>
                                     </div>
                                   }

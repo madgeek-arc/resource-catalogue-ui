@@ -372,7 +372,7 @@ export class ResourceService {
     // } else {
     //   params = params.append('catalogue_id', 'all');
     // }
-    return this.http.get<Bundle<Service>>(this.base + `/service/adminPage/all`, {params});
+    return this.http.get<Bundle<Service>>(this.base + `/service/bundle/all`, {params});
   }
 
   getServiceBundleById(id: string) {

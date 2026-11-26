@@ -5,8 +5,8 @@
       <div class="menu_section uk-margin-medium-top">
 
         @if (resourceBundle?.active === false) {
-          <div class="rejected">
-            <div class="uk-label uk-align-right uk-margin-right" uk-tooltip="Some actions are disabled for inactive resources.">Inactive</div>
+          <div>
+            <div class="uk-label uk-label-gray uk-align-right uk-margin-right" uk-tooltip="Some actions are disabled for inactive resources.">Inactive</div>
           </div>
         }
 
@@ -86,7 +86,7 @@
                   [routerLink]="['./templatesForGuideline', id]"
                   [title]="getGuidelineName(id)">
                   <span class="guideline-name">
-                    <i class="fa fa-circle-thin" style="color: #26c0e2"></i>&nbsp;
+                    <span class="material-symbols-outlined">radio_button_unchecked</span>&nbsp;
                     {{ getGuidelineName(id) }}
                   </span>
                 </a>
@@ -127,7 +127,7 @@
       @if (catalogueId != null) {
         <li>
           <a href="/provider/{{pidHandler.customEncodeURIComponent(resourceBundle?.service.resourceOwner)}}/resource/view/{{pidHandler.customEncodeURIComponent(resourceBundle?.id)}}">
-            <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true" style="color: #26c0e2"></i> View {{serviceORresource}}
+            <span class="material-symbols-outlined uk-margin-small-right" aria-hidden="true">visibility</span> View {{serviceORresource}}
           </a>
         </li>
       }

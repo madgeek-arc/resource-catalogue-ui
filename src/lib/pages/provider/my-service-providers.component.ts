@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ServiceProviderService} from '../../services/service-provider.service';
 import {ResourceService} from '../../services/resource.service';
+import {DatasourceService} from '../../services/datasource.service';
 import {AuthenticationService} from '../../services/authentication.service';
 import {ProviderBundle} from '../../domain/eic-model';
 import {zip} from 'rxjs';
@@ -29,6 +30,8 @@ export class MyServiceProvidersComponent implements OnInit {
   hasRejectedDatasources: { id: string, flag: boolean }[] = [];
   hasRejectedTrainingResources: { id: string, flag: boolean }[] = [];
   hasRejectedDeployableServices: { id: string, flag: boolean }[] = [];
+  hasRejectedAdapters: { id: string, flag: boolean }[] = [];
+  hasRejectedGuidelines: { id: string, flag: boolean }[] = [];
 
   myApprovedProviders: ProviderBundle[] = [];
   myPendingActionProviders: ProviderBundle[] = [];
@@ -46,6 +49,7 @@ export class MyServiceProvidersComponent implements OnInit {
   constructor(
     private serviceProviderService: ServiceProviderService,
     private resourceService: ResourceService,
+    private datasourceService: DatasourceService,
     public authenticationService: AuthenticationService,
     public pidHandler: pidHandler,
     public config: ConfigService
@@ -80,7 +84,9 @@ export class MyServiceProvidersComponent implements OnInit {
                         service: JSON.parse(JSON.stringify(res)).service,
                         datasource: JSON.parse(JSON.stringify(res)).datasource,
                         trainingResource: JSON.parse(JSON.stringify(res)).trainingResource,
-                        deployableApplication: JSON.parse(JSON.stringify(res)).deployableApplication
+                        deployableApplication: JSON.parse(JSON.stringify(res)).deployableApplication,
+                        adapter: JSON.parse(JSON.stringify(res)).adapter,
+                        interoperabilityRecord: JSON.parse(JSON.stringify(res)).interoperabilityRecord
                       });
                     }
                   }
@@ -99,7 +105,7 @@ export class MyServiceProvidersComponent implements OnInit {
                     // console.log(this.hasDraftServices);
                   }
                 );
-                this.resourceService.getDraftServicesByProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
+                this.datasourceService.getDraftDatasourcesByProvider(p.id, '0', '50', 'ASC', 'name').subscribe(
                   res => {
                     if (res.results?.length > 0) {
                       this.hasDraftDatasources.push({id: p.id, flag: true});
@@ -143,6 +149,24 @@ export class MyServiceProvidersComponent implements OnInit {
                       this.hasRejectedDeployableServices.push({id: p.id, flag: true});
                     } else {
                       this.hasRejectedDeployableServices.push({id: p.id, flag: false});
+                    }
+                  }
+                );
+                this.serviceProviderService.getRejectedResourcesOfProvider(p.id, '0', '50', 'ASC', 'name', 'adapter').subscribe(
+                  res => {
+                    if (res.results?.length > 0) {
+                      this.hasRejectedAdapters.push({id: p.id, flag: true});
+                    } else {
+                      this.hasRejectedAdapters.push({id: p.id, flag: false});
+                    }
+                  }
+                );
+                this.serviceProviderService.getRejectedResourcesOfProvider(p.id, '0', '50', 'ASC', 'name', 'interoperability_record').subscribe(
+                  res => {
+                    if (res.results?.length > 0) {
+                      this.hasRejectedGuidelines.push({id: p.id, flag: true});
+                    } else {
+                      this.hasRejectedGuidelines.push({id: p.id, flag: false});
                     }
                   }
                 );
@@ -256,6 +280,24 @@ export class MyServiceProvidersComponent implements OnInit {
     return false;
   }
 
+  checkForRejectedAdapters(id: string): boolean {
+    for (let i = 0; i < this.hasRejectedAdapters.length; i++) {
+      if (this.hasRejectedAdapters[i].id === id) {
+        return this.hasRejectedAdapters[i].flag;
+      }
+    }
+    return false;
+  }
+
+  checkForRejectedGuidelines(id: string): boolean {
+    for (let i = 0; i < this.hasRejectedGuidelines.length; i++) {
+      if (this.hasRejectedGuidelines[i].id === id) {
+        return this.hasRejectedGuidelines[i].flag;
+      }
+    }
+    return false;
+  }
+
   getLinkToFirstService(id: string) {
     if (this.hasCreatedFirstService(id)) {
       return '/provider/' + this.pidHandler.customEncodeURIComponent(id) + '/resource/update/' + this.pidHandler.customEncodeURIComponent(this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId);
@@ -285,6 +327,30 @@ export class MyServiceProvidersComponent implements OnInit {
       return '/provider/' + this.pidHandler.customEncodeURIComponent(id) + '/deployable-service/update/' + this.pidHandler.customEncodeURIComponent(this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId);
     } else {
       return '/provider/' + this.pidHandler.customEncodeURIComponent(id) + '/add-first-deployable-service';
+    }
+  }
+
+  hasCreatedFirstAdapter(providerId: string) {
+    return this.serviceTemplatePerProvider.some(x => x.providerId == providerId && x.adapter);
+  }
+
+  hasCreatedFirstGuideline(providerId: string) {
+    return this.serviceTemplatePerProvider.some(x => x.providerId == providerId && x.interoperabilityRecord);
+  }
+
+  getLinkToFirstAdapter(id: string) {
+    if (this.hasCreatedFirstAdapter(id)) {
+      return '/provider/' + this.pidHandler.customEncodeURIComponent(id) + '/adapter/update/' + this.pidHandler.customEncodeURIComponent(this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId);
+    } else {
+      return '/provider/' + this.pidHandler.customEncodeURIComponent(id) + '/adapter/add';
+    }
+  }
+
+  getLinkToFirstGuideline(id: string) {
+    if (this.hasCreatedFirstGuideline(id)) {
+      return '/guidelines/' + this.pidHandler.customEncodeURIComponent(id) + '/update/' + this.pidHandler.customEncodeURIComponent(this.serviceTemplatePerProvider.filter(x => x.providerId === id)[0].serviceId);
+    } else {
+      return '/guidelines/' + this.pidHandler.customEncodeURIComponent(id) + '/add';
     }
   }
 

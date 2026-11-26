@@ -210,7 +210,7 @@ export class TrainingResourceService {
     // } else {
     //   params = params.append('catalogue_id', 'all');
     // }
-    return this.http.get<TrainingResourceBundle>(this.base + `/trainingResource/adminPage/all`, {params});
+    return this.http.get<TrainingResourceBundle>(this.base + `/trainingResource/bundle/all`, {params});
   }
 
   getRandomResources(quantity: string) {

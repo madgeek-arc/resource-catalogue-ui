@@ -14,6 +14,7 @@ import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {DeduplicationService, SimilarResource} from "../../services/deduplication.service";
 import {SuggestionConfig, SuggestionService, SuggestionState} from "../../services/suggestion.service";
 import {Type, Vocabulary} from "../../domain/eic-model";
+import {buildHttpErrorMessage} from '../../shared/tools';
 
 declare let UIkit: any;
 
@@ -193,10 +194,7 @@ export class CatalogueFormComponent implements OnInit, OnDestroy {
           err => {
             this.showLoader = false;
             window.scrollTo(0, 0);
-                    this.errorMessage =
-          (err?.status >= 500 && err?.status < 600)
-            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
-            : `Something went bad, server responded: ${err?.error?.detail}`;
+                    this.errorMessage = buildHttpErrorMessage(err);
           },
           () => {
             this.showLoader = false;
@@ -213,10 +211,7 @@ export class CatalogueFormComponent implements OnInit, OnDestroy {
         err => {
           this.showLoader = false;
           window.scrollTo(0, 0);
-                  this.errorMessage =
-          (err?.status >= 500 && err?.status < 600)
-            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
-            : `Something went bad, server responded: ${err?.error?.detail}`;
+                  this.errorMessage = buildHttpErrorMessage(err);
         },
         () => {
           this.showLoader = false;

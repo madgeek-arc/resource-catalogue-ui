@@ -114,17 +114,19 @@
                     </div>
                   </div>
 
-                  <div class="uk-inline uk-margin-right">
-                    <label class="uk-margin-small-right" for="status">Status:</label>
-                    <div class="uk-inline">
-                      <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
-                        <option value="" selected>All</option>
-                        <option value="approved">Approved</option>
-                        <option value="rejected">Rejected</option>
-                        <option value="pending">Pending</option>
-                      </select>
+                  @if (config.isReviewed('adapter')) {
+                    <div class="uk-inline uk-margin-right">
+                      <label class="uk-margin-small-right" for="status">Status:</label>
+                      <div class="uk-inline">
+                        <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
+                          <option value="" selected>All</option>
+                          <option value="approved">Approved</option>
+                          <option value="rejected">Rejected</option>
+                          <option value="pending">Pending</option>
+                        </select>
+                      </div>
                     </div>
-                  </div>
+                  }
 
                   <div class="uk-inline uk-margin-right">
                     <label class="uk-margin-small-right" for="active">Active:</label>
@@ -221,8 +223,8 @@
                           </div>
                         }
                         @if (!adapterBundle.active) {
-                          <div class="rejected">
-                            <div class="uk-label uk-align-right" [ngClass]="adapterBundle.status === 'pending' ? 'uk-position-top-right uk-margin-medium-right' : ''">Inactive</div>
+                          <div>
+                            <div class="uk-label uk-label-gray uk-align-right" [ngClass]="adapterBundle.status === 'pending' ? 'uk-position-top-right uk-margin-medium-right' : ''">Inactive</div>
                           </div>
                         }
                         @if (adapterBundle.suspended) {
@@ -311,6 +313,15 @@
                             </button>
                             <div uk-dropdown="mode: click">
                               <ul class="uk-nav uk-dropdown-nav uk-dropdown-close">
+                                @if (adapterBundle.status==='pending') {
+                                  <li class="uk-active" (click)="verifyAdapter(adapterBundle.id, true, 'approved')">
+                                    <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">thumb_up</span>Approve</a>
+                                  </li>
+                                  <li class="uk-active" (click)="verifyAdapter(adapterBundle.id, false, 'rejected')">
+                                    <a><span class="material-symbols-outlined uk-margin-small-right" style="vertical-align: middle;">thumb_down</span>Reject</a>
+                                  </li>
+                                  <li class="uk-nav-divider"></li>
+                                }
                                 @if (adapterBundle.active && adapterBundle.status==='approved') {
                                   <li class="uk-margin-small-bottom"
                                     (click)="showAuditForm(adapterBundle)">
@@ -624,7 +635,7 @@
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.logo as value">
         <dt>Logo</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-symbols-outlined external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.node as value">
         <dt>Node</dt><dd>{{ value }}</dd>
@@ -637,11 +648,11 @@
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.documentation as value">
         <dt>Documentation</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-symbols-outlined external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="getDuplicateResource(item)?.repository as value">
         <dt>Repository</dt>
-        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}</a></dd>
+        <dd class="uk-text-break"><a [href]="value" target="_blank" rel="noopener noreferrer">{{ value }}<span class="material-symbols-outlined external-link-icon" aria-hidden="true">open_in_new</span></a></dd>
       </ng-container>
       <ng-container *ngIf="formatDuplicateValue(getDuplicateResource(item)?.releases) as value">
         <dt>Releases</dt><dd class="uk-text-break">{{ value }}</dd>

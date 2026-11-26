@@ -13,6 +13,7 @@ import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/sur
 import {Model} from "../../../dynamic-catalogue/domain/dynamic-form-model";
 import {FormControlService} from "../../../dynamic-catalogue/services/form-control.service";
 import {DeduplicationService, SimilarResource} from '../../services/deduplication.service';
+import {buildHttpErrorMessage} from '../../shared/tools';
 
 declare let UIkit: any;
 
@@ -57,7 +58,11 @@ export class GuidelinesFormComponent implements OnInit {
     this.providerId = this.route.snapshot.paramMap.get('providerId');
     this.serviceProviderService.getFormModelById('m-b-guidelines').subscribe(
       res => this.model = res,
-      err => console.log(err),
+      err => {
+        console.log(err);
+        this.showLoader = false;
+        this.errorMessage = 'Could not load the form. Please try again later.';
+      },
       ()=>{
         if (!this.editMode) { //prefill field(s)
           this.payloadAnswer = {
@@ -98,10 +103,7 @@ export class GuidelinesFormComponent implements OnInit {
       res => {},
       err => {
         this.showLoader = false;
-                this.errorMessage =
-          (err?.status >= 500 && err?.status < 600)
-            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
-            : `Something went bad, server responded: ${err?.error?.detail}`;
+                this.errorMessage = buildHttpErrorMessage(err);
       },
       () => {
         this.showLoader = false;

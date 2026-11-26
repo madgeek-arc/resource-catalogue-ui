@@ -5,8 +5,8 @@
       <div class="menu_section uk-margin-medium-top">
 
         @if (providerBundle?.active === false) {
-          <div class="rejected">
-            <div class="uk-label uk-align-right uk-margin-right">Inactive</div>
+          <div>
+            <div class="uk-label uk-label-gray uk-align-right uk-margin-right">Inactive</div>
           </div>
         }
 
@@ -178,13 +178,13 @@
             <li class="sidebar-hover-parent" (click)="showPendingNotification()">
               <a class="uk-nav-link" title="Disabled until provider gets approved.">
                 <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
-                Add first Resource
+                {{ config.isAnyReviewFirst() ? 'Add first Resource' : 'Add Resource' }}
                 <span uk-icon="icon: chevron-right; ratio: 0.8" class="submenu-arrow"></span>
               </a>
             </li>
           }
 
-          @if (providerBundle?.templateStatus === 'rejected template' || (providerBundle?.status === 'approved' && providerBundle?.templateStatus === 'no template status')) {
+          @if (anyCanAddFirst()) {
             <li class="sidebar-hover-parent" [class.submenu-open]="showAddFirstSubmenu" (click)="showAddFirstSubmenu = !showAddFirstSubmenu">
               <a class="uk-nav-link">
                 <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
@@ -192,26 +192,15 @@
                 <span uk-icon="icon: chevron-right; ratio: 0.8" class="submenu-arrow"></span>
               </a>
               <ul class="sidebar-submenu" (click)="$event.stopPropagation()">
-                <li>
-                  <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/add-first-service/']">
-                    Add first {{serviceORresource}}
-                  </a>
-                </li>
-                <li>
-                  <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/datasource/select-first/']">
-                    Add first Datasource
-                  </a>
-                </li>
-                <li>
-                  <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/add-first-training-resource/']">
-                    Add first Training Resource
-                  </a>
-                </li>
-                <li>
-                  <a [routerLink]="['/provider/' + pidHandler.customEncodeURIComponent(providerId) + '/add-first-deployable-service/']">
-                    Add first Deployable Application
-                  </a>
-                </li>
+                @for (r of addableResources; track r.policyType) {
+                  @if (canAddFirst(r.policyType)) {
+                    <li>
+                      <a [routerLink]="addFirstLink(r)">
+                        Add first {{r.label}}
+                      </a>
+                    </li>
+                  }
+                }
               </ul>
             </li>
           }
@@ -258,7 +247,7 @@
               </a>
             </li>
           </ng-container>-->
-          @if (providerBundle?.templateStatus === 'approved template' || providerBundle?.status === 'approved') {
+          @if (anyCanAddNew()) {
             <li class="sidebar-hover-parent" [class.submenu-open]="showAddNewSubmenu" (click)="showAddNewSubmenu = !showAddNewSubmenu">
               <a class="uk-nav-link">
                 <img src="../../../../assets/images/new-icons/add-service.svg" class="uk-margin-small-right">
@@ -266,42 +255,19 @@
                 <span uk-icon="icon: chevron-right; ratio: 0.8" class="submenu-arrow"></span>
               </a>
               <ul class="sidebar-submenu" (click)="$event.stopPropagation()">
-                @if (providerBundle?.templateStatus === 'approved template') {
-                  <li>
-                    <a [routerLink]="['/provider/' + providerId + '/resource/add/']">
-                      Add new {{serviceORresource}}
-                    </a>
-                  </li>
-                  <li>
-                    <a [routerLink]="['/provider/' + providerId + '/datasource/select/']">
-                      Add new Datasource
-                    </a>
-                  </li>
-                  <li>
-                    <a [routerLink]="['/provider/' + providerId + '/training-resource/add/']">
-                      Add new Training Resource
-                    </a>
-                  </li>
-                  <li>
-                    <a [routerLink]="['/provider/' + providerId + '/deployable-service/add/']">
-                      Add new Deployable Application
-                    </a>
-                  </li>
+                @for (r of addableResources; track r.policyType) {
+                  @if (canAddNew(r.policyType)) {
+                    <li>
+                      <a [routerLink]="addNewLink(r)">
+                        Add new {{r.label}}
+                      </a>
+                    </li>
+                  }
                 }
                 @if (providerBundle?.status === 'approved') {
                   <li>
                     <a [routerLink]="['/catalogue/' + providerId + '/add/']">
                       Add new Catalogue
-                    </a>
-                  </li>
-                  <li>
-                    <a [routerLink]="['/provider/' + providerId + '/adapter/add/']">
-                      Add new Adapter
-                    </a>
-                  </li>
-                  <li>
-                    <a [routerLink]="['/guidelines/' + providerId + '/add/']">
-                      Add new Guideline
                     </a>
                   </li>
                 }
@@ -350,7 +316,7 @@
       @if (providerBundle.catalogueId != null) {
         <li>
           <a href="/provider/view/{{pidHandler.customEncodeURIComponent(providerBundle.catalogueId)}}/{{pidHandler.customEncodeURIComponent(providerBundle?.id)}}">
-            <i class="fa fa-eye fa-lg uk-margin-small-right" aria-hidden="true" style="color: #26c0e2"></i> View Provider
+            <span class="material-symbols-outlined uk-margin-small-right" aria-hidden="true">visibility</span> View Provider
           </a>
         </li>
       }

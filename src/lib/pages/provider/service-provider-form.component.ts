@@ -15,6 +15,7 @@ import {FormControlService} from "../../../dynamic-catalogue/services/form-contr
 import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/survey.component";
 import {DeduplicationService, SimilarResource} from "../../services/deduplication.service";
 import {SuggestionConfig, SuggestionService, SuggestionState} from "../../services/suggestion.service";
+import {buildHttpErrorMessage} from '../../shared/tools';
 
 declare let UIkit: any;
 
@@ -128,7 +129,11 @@ export class ServiceProviderFormComponent implements OnInit, OnDestroy {
 
     this.serviceProviderService.getFormModelById('m-b-organisation').subscribe(
       res => this.model = res,
-      err => console.log(err),
+      err => {
+        console.log(err);
+        this.showLoader = false;
+        this.errorMessage = 'Could not load the form. Please try again later.';
+      },
       () => {
         if (!this.editMode) { //prefill field(s)
           const currentUser = this.getCurrentUserInfo();
@@ -188,7 +193,12 @@ export class ServiceProviderFormComponent implements OnInit, OnDestroy {
     this.vocabularyEntryForm = this.fb.group(this.suggestionsForm);
   }
 
+  buildErrorMessage(err: any): string {
+    return buildHttpErrorMessage(err);
+  }
+
   submitForm(formData: any) {
+    if (this.showLoader) { return; } // submission already in progress
     let providerValue = formData.value.organisation;
     window.scrollTo(0, 0);
 
@@ -214,10 +224,7 @@ export class ServiceProviderFormComponent implements OnInit, OnDestroy {
           },
           err => {
             this.showLoader = false;
-                    this.errorMessage =
-          (err?.status >= 500 && err?.status < 600)
-            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
-            : `Something went bad, server responded: ${err?.error?.detail}`;
+            this.errorMessage = this.buildErrorMessage(err);
           },
           () => {
             this.showLoader = false;
@@ -230,10 +237,7 @@ export class ServiceProviderFormComponent implements OnInit, OnDestroy {
         },
         err => {
           this.showLoader = false;
-                  this.errorMessage =
-          (err?.status >= 500 && err?.status < 600)
-            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
-            : `Something went bad, server responded: ${err?.error?.detail}`;
+          this.errorMessage = this.buildErrorMessage(err);
         },
         () => {
           this.showLoader = false;

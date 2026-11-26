@@ -64,19 +64,21 @@
 
         </div>
 
-        <div class="uk-margin-right">
-          <div class="uk-inline uk-margin-right">
-            <label class="" for="status">Status </label>
-            <div class="uk-inline">
-              <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
-                <option value="" selected>All</option>
-                <option value="approved">Approved</option>
-                <option value="pending">Pending</option>
-                <option value="rejected">Rejected</option>
-              </select>
+        @if (config.isReviewed('adapter')) {
+          <div class="uk-margin-right">
+            <div class="uk-inline uk-margin-right">
+              <label class="" for="status">Status </label>
+              <div class="uk-inline">
+                <select class="uk-input uk-select" id="status" (change)="handleChangeAndResetPage()" formControlName="status">
+                  <option value="" selected>All</option>
+                  <option value="approved">Approved</option>
+                  <option value="pending">Pending</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </div>
             </div>
           </div>
-        </div>
+        }
 
         <div class="uk-flex uk-flex-right">
           <form [formGroup]="dataForm" (ngSubmit)="handleChangeAndResetPage()" class="uk-search uk-search-default" style="width: 250px;">
@@ -163,10 +165,10 @@
                           <button
                             [routerLink]="['/provider/'+ pidHandler.customEncodeURIComponent(adapterBundle.adapter.resourceOwner) +'/adapter/update/'+ pidHandler.customEncodeURIComponent(adapterBundle.id)]"
                             class="uk-button uk-button-action uk-display-block uk-margin-small-top">
-                            <i class="fa fa-pencil fa-lg" aria-hidden="true"></i> Update Adapter
+                            <span class="material-symbols-outlined" aria-hidden="true">edit</span> Update Adapter
                           </button>
                           <button class="uk-button uk-button-action uk-display-block uk-margin-small-top" (click)="setSelectedAdapter(adapterBundle)">
-                            <i class="fa fa-trash fa-lg" aria-hidden="true"></i> Delete Adapter
+                            <span class="material-symbols-outlined" aria-hidden="true">delete</span> Delete Adapter
                           </button>
                         </div>
                       </div>

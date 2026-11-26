@@ -14,6 +14,7 @@ import {SurveyComponent} from "../../../dynamic-catalogue/pages/dynamic-form/sur
 import {AdaptersService} from "../../services/adapters.service";
 import {pidHandler} from "../../shared/pid-handler/pid-handler.service";
 import {DeduplicationService, SimilarResource} from '../../services/deduplication.service';
+import {buildHttpErrorMessage} from '../../shared/tools';
 
 declare let UIkit: any;
 
@@ -94,10 +95,7 @@ export class AdaptersFormComponent implements OnInit {
         this.showLoader = false;
         window.scrollTo(0, 0);
         console.log(err);
-        this.errorMessage =
-          (err?.status >= 500 && err?.status < 600)
-            ? `Something went wrong. If the issue persists, please contact support and provide the following error code: ${err?.error?.traceId}`
-            : `Something went bad, server responded: ${err?.error?.detail}`;
+        this.errorMessage = buildHttpErrorMessage(err);
       }
     );
   }

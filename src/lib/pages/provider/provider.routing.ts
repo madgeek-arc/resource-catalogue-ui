@@ -31,6 +31,8 @@ import {UpdateDeployableService} from "../deployable-services/update-deployable-
 import {
   RejectedDeployableServicesComponent
 } from "./dashboard/rejectedDeployableServices/rejected-deployable-services.component";
+import {RejectedAdaptersComponent} from "./dashboard/rejectedAdapters/rejected-adapters.component";
+import {RejectedGuidelinesComponent} from "./dashboard/rejectedGuidelines/rejected-guidelines.component";
 import {RejectedDatasourcesComponent} from "./dashboard/rejectedDatasources/rejected-datasources.component";
 import {AdaptersFormComponent} from "../adapters/adapters-form.component";
 import {AdaptersListComponent} from "../admin/adapters-list.component";
@@ -127,6 +129,22 @@ const providerRoutes: Routes = [
     canActivate: [CanActivateViaAuthGuard],
     data: {
       breadcrumb: 'Rejected Deployable Application'
+    }
+  },
+  {
+    path: 'rejected-adapters/:providerId',
+    component: RejectedAdaptersComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Rejected Adapters'
+    }
+  },
+  {
+    path: 'rejected-guidelines/:providerId',
+    component: RejectedGuidelinesComponent,
+    canActivate: [CanActivateViaAuthGuard],
+    data: {
+      breadcrumb: 'Rejected Guidelines'
     }
   },
   {
